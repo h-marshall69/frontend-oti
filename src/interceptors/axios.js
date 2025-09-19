@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8000/api/'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded' //  esto elimnar by marshall
+
+//https://randomuser.me/api/
 
 let refresh = false
 

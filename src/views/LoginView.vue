@@ -3,9 +3,9 @@
     <form @submit.prevent="submit">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-      <div class="form-floating">
-        <input type="text" class="form-control" name="email" placeholder="name@example.com" />
-        <label>Email</label>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="username" placeholder="Username" />
+        <label for="username">Username</label>
       </div>
 
       <div class="form-floating">
@@ -29,11 +29,16 @@ export default {
 
     const submit = async (e) => {
       const form = new FormData(e.target)
+      const params = new URLSearchParams(form.entries()) // esto eliminar by marshall 
 
       const inputs = Object.fromEntries(form.entries())
 
-      const { data } = await axios.post('login', inputs, {
-        withCredentials: true,
+      //const { data } = await axios.post('login', inputs, {
+      //withCredentials: true,
+      //})
+
+      const { data } = await axios.post('login', params.toString(), {
+        //withCredentials: true,
       })
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
