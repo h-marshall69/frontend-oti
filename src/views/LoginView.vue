@@ -4,12 +4,12 @@
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="username" placeholder="Username" />
-        <label for="username">Username</label>
+        <input v-model="username" type="text" class="form-control" placeholder="Username" />
+        <label>Username</label>
       </div>
 
-      <div class="form-floating">
-        <input type="password" class="form-control" name="password" placeholder="Password" />
+      <div class="form-floating mb-3">
+        <input v-model="password" type="password" class="form-control" placeholder="Password" />
         <label>Password</label>
       </div>
 
@@ -21,29 +21,34 @@
 <script>
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { ref } from 'vue'
+
+const username = ref('')
+const password = ref('')
+const router = useRouter()
 
 export default {
   name: 'Login',
   setup() {
-    const router = useRouter()
-
     const submit = async (e) => {
-      const form = new FormData(e.target)
-      const params = new URLSearchParams(form.entries()) // esto eliminar by marshall 
+      try {
+        const { data } = await axios.post('/login', {
+          username: username.value,
+          password: password.value,
+        })
 
-      const inputs = Object.fromEntries(form.entries())
+        // Guardar token en localStorage
+        localStorage.setItem('auth_token', data.token)
 
-      //const { data } = await axios.post('login', inputs, {
-      //withCredentials: true,
-      //})
+        // Configurar axios para futuras peticiones
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
 
-      const { data } = await axios.post('login', params.toString(), {
-        //withCredentials: true,
-      })
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
-
-      await router.push('/')
+        // Redirigir al home
+        await router.push('/')
+      } catch (error) {
+        console.error('Error en login:', error)
+        //alert('Credenciales inválidas o error de servidor')
+      }
     }
 
     return {
