@@ -12,27 +12,14 @@
       <form @submit.prevent="uploadPhoto" class="upload-form">
         <div class="form-group">
           <label for="dni">DNI o Carnet de Extranjeria:</label>
-          <input
-            type="text"
-            id="dni"
-            v-model="dni"
-            placeholder="Ingrese DNI (8-9 dígitos)"
-            required
-            class="form-input"
-          />
+          <input type="text" id="dni" v-model="dni" placeholder="Ingrese DNI (8-9 dígitos)" required
+            class="form-input" />
         </div>
 
         <div class="form-group">
           <label for="image">Seleccionar Imagen (JPG):</label>
-          <input
-            type="file"
-            id="image"
-            ref="fileInput"
-            @change="handleFileSelect"
-            accept=".jpg,.jpeg"
-            required
-            class="form-input"
-          />
+          <input type="file" id="image" ref="fileInput" @change="handleFileSelect" accept=".jpg,.jpeg" required
+            class="form-input" />
           <small v-if="selectedFile">Archivo seleccionado: {{ selectedFile.name }}</small>
         </div>
 
@@ -123,14 +110,13 @@ export default {
       try {
         const formData = new FormData()
         formData.append('dni', this.dni)
-        formData.append('image', this.selectedFile)
+        formData.append('file', this.selectedFile)
 
         // Obtener token JWT (ajusta según tu implementación)
-        const token = localStorage.getItem('token') // o como almacenes el token
 
         const response = await axios.post('tomar_fotos', formData, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            //Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         })
