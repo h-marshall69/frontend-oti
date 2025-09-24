@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import TakePhotoView from '@/views/TakePhotoView.vue'
+import ValidateUser from '@/views/ValidateUser.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/take_photo',
       name: 'take_photo',
       component: TakePhotoView,
+    },
+    {
+      path: '/validate_user',
+      name: 'validate_user',
+      component: ValidateUser,
     },
     {
       path: '/about',
